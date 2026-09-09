@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GovScheme AI | Government Scheme Assistant</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background: #f6f9fd;
+            color: #17243b;
+        }
+
+
+        /* =========================
+           NAVBAR
+           ========================= */
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+
+            padding: 18px 6%;
+
+            background: rgba(255,255,255,0.96);
+
+            border-bottom: 1px solid #e7edf5;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .logo b {
+            color: #1261d6;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        .navbar nav a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .navbar nav a:hover {
+            color: #1261d6;
+        }
+
+        .nav-button {
+            text-decoration: none;
+            background: #1261d6;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           HERO
+           ========================= */
+
+        .hero {
+            max-width: 1200px;
+            margin: auto;
+
+            min-height: 620px;
+
+            padding: 90px 30px;
+
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+
+            gap: 70px;
+
+            align-items: center;
+        }
+
+        .badge {
+            display: inline-block;
+
+            background: #eaf3ff;
+            color: #1261d6;
+
+            padding: 9px 15px;
+
+            border-radius: 30px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: clamp(38px, 5vw, 60px);
+
+            line-height: 1.1;
+
+            margin: 0;
+
+            color: #14213d;
+
+            letter-spacing: -1.5px;
+        }
+
+        .hero h1 span {
+            display: block;
+            color: #1261d6;
+        }
+
+        .hero-content > p {
+            max-width: 650px;
+
+            margin: 25px 0;
+
+            color: #64748b;
+
+            line-height: 1.8;
+
+            font-size: 16px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 13px 20px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .primary-btn {
+            background: #1261d6;
+            color: white;
+
+            box-shadow: 0 8px 20px rgba(18,97,214,0.20);
+        }
+
+        .secondary-btn {
+            background: white;
+            color: #17243b;
+
+            border: 1px solid #dce4ee;
+        }
+
+        .trust {
+            margin-top: 25px;
+
+            color: #64748b;
+
+            font-size: 12px;
+            line-height: 2;
+        }
+
+
+        /* =========================
+           AI CARD
+           ========================= */
+
+        .ai-card {
+
+            background: rgba(255,255,255,0.98);
+
+            border: 1px solid #dfe7f1;
+
+            border-radius: 25px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 25px 70px rgba(30,60,100,0.12);
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .ai-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            background: #e9f2ff;
+
+            border-radius: 50%;
+
+            top: -90px;
+            right: -60px;
+
+            z-index: 0;
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-icon {
+
+            width: 55px;
+            height: 55px;
+
+            display: grid;
+            place-items: center;
+
+            background: #1261d6;
+
+            border-radius: 15px;
+
+            font-size: 28px;
+        }
+
+        .ai-header h3 {
+            margin: 0;
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 17px;
+        }
+
+        .ai-header p {
+            margin: 4px 0 0;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+        .online {
+            margin-left: auto;
+
+            color: #16a36a;
+
+            font-size: 13px;
+        }
+
+        .ai-message {
+
+            margin-top: 30px;
+
+            background: #f5f8fc;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-message p {
+
+            margin: 0;
+
+            color: #475569;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+        .ai-question {
+
+            margin-top: 18px;
+
+            padding: 13px 14px;
+
+            background: white;
+
+            border: 1px solid #dce5ef;
+
+            border-radius: 13px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-question span {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #17243b;
+        }
+
+        .ai-find-btn {
+
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            background: #1261d6;
+
+            color: white;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+            transition: 0.25s;
+        }
+
+        .ai-find-btn:hover {
+
+            background: #0b47a1;
+
+            transform: translateX(3px);
+        }
+
+        .ai-footer {
+
+            margin-top: 18px;
+
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            position: relative;
+            z-index: 1;
+        }
+
+
+        /* =========================
+           STATS
+           ========================= */
+
+        .stats {
+
+            max-width: 1100px;
+
+            margin: 0 auto 80px;
+
+            padding: 25px;
+
+            display: grid;
+
+            grid-template-columns: repeat(4,1fr);
+
+            background: white;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 20px;
+
+            box-shadow: 0 10px 35px rgba(30,60,100,0.06);
+        }
+
+        .stats div {
+
+            text-align: center;
+
+            border-right: 1px solid #e5eaf1;
+        }
+
+        .stats div:last-child {
+            border-right: none;
+        }
+
+        .stats h2 {
+
+            margin: 0;
+
+            color: #1261d6;
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 28px;
+        }
+
+        .stats p {
+
+            margin: 6px 0 0;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           SECTION TITLES
+           ========================= */
+
+        .section-title {
+
+            text-align: center;
+
+            max-width: 700px;
+
+            margin: auto;
+
+            padding: 20px;
+        }
+
+        .section-title span {
+
+            color: #1261d6;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+        }
+
+        .section-title h2 {
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 34px;
+
+            margin: 12px 0;
+
+            color: #14213d;
+        }
+
+        .section-title p {
+
+            color: #64748b;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           SCHEMES
+           ========================= */
+
+        .schemes-section {
+
+            padding: 60px 25px 90px;
+
+            background: #f8fafc;
+        }
+
+        .scheme-grid {
+
+            max-width: 1100px;
+
+            margin: 35px auto 0;
+
+            display: grid;
+
+            grid-template-columns: repeat(4,1fr);
+
+            gap: 20px;
+        }
+
+        .scheme-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 18px;
+
+            box-shadow: 0 8px 25px rgba(30,60,100,0.06);
+
+            transition: 0.25s;
+        }
+
+        .scheme-card:hover {
+
+            transform: translateY(-6px);
+
+            box-shadow: 0 18px 40px rgba(30,60,100,0.12);
+        }
+
+        .scheme-icon {
+
+            width: 55px;
+            height: 55px;
+
+            display: grid;
+            place-items: center;
+
+            background: #edf5ff;
+
+            border-radius: 14px;
+
+            font-size: 28px;
+
+            margin-bottom: 18px;
+        }
+
+        .scheme-card h3 {
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 17px;
+
+            margin: 0 0 10px;
+        }
+
+        .scheme-card p {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            min-height: 65px;
+        }
+
+        .scheme-card a {
+
+            display: inline-block;
+
+            margin-top: 10px;
+
+            color: #1261d6;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           HOW IT WORKS
+           ========================= */
+
+        .how-section {
+
+            padding: 90px 25px;
+
+            background: white;
+        }
+
+        .steps {
+
+            max-width: 1000px;
+
+            margin: 40px auto 0;
+
+            display: grid;
+
+            grid-template-columns: repeat(3,1fr);
+
+            gap: 30px;
+        }
+
+        .step {
+
+            text-align: center;
+
+            padding: 25px;
+        }
+
+        .step-number {
+
+            width: 55px;
+            height: 55px;
+
+            margin: auto auto 18px;
+
+            display: grid;
+            place-items: center;
+
+            background: #1261d6;
+
+            color: white;
+
+            border-radius: 50%;
+
+            font-weight: 800;
+        }
+
+        .step h3 {
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 17px;
+        }
+
+        .step p {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           CTA
+           ========================= */
+
+        .cta {
+
+            text-align: center;
+
+            padding: 80px 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef5ff,
+                    #f8fbff
+                );
+        }
+
+        .cta h2 {
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 32px;
+
+            color: #14213d;
+        }
+
+        .cta p {
+
+            color: #64748b;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================
+           FOOTER
+           ========================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 45px 20px;
+
+            background: #101827;
+
+            color: #cbd5e1;
+        }
+
+        .footer-logo {
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+            color: white;
+        }
+
+        .footer-logo b {
+            color: #4f9cff;
+        }
+
+        footer p {
+
+            font-size: 12px;
+
+            color: #94a3b8;
+        }
+
+        .copyright {
+
+            margin-top: 20px;
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media(max-width: 900px) {
+
+            .hero {
+
+                grid-template-columns: 1fr;
+
+                gap: 40px;
+
+                padding-top: 60px;
+            }
+
+            .scheme-grid {
+
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .stats {
+
+                grid-template-columns: repeat(2,1fr);
+
+                gap: 20px;
+            }
+
+            .stats div:nth-child(2) {
+
+                border-right: none;
+            }
+
+            .steps {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media(max-width: 650px) {
+
+            .navbar {
+
+                flex-wrap: wrap;
+
+                padding: 15px 20px;
+            }
+
+            .navbar nav {
+
+                order: 3;
+
+                width: 100%;
+
+                justify-content: center;
+
+                gap: 18px;
+            }
+
+            .nav-button {
+
+                font-size: 11px;
+            }
+
+            .hero {
+
+                padding: 50px 20px;
+            }
+
+            .hero h1 {
+
+                font-size: 38px;
+            }
+
+            .scheme-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+
+            .section-title h2 {
+
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+     ========================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        🏛️ GovScheme<b>AI</b>
+    </div>
+
+    <nav>
+
+        <a href="/">Home</a>
+
+        <a href="#schemes">Schemes</a>
+
+        <a href="#how-it-works">How It Works</a>
+
+        <a href="/login">Login</a>
+
+    </nav>
+
+    <a href="/profile" class="nav-button">
+        Check Eligibility →
+    </a>
+
+</header>
+
+
+<!-- =========================
+     HERO
+     ========================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            ✨ AI-Powered Government Scheme Assistant
+        </div>
+
+        <h1>
+
+            Discover Government Schemes
+
+            <span>
+                You're Eligible For
+            </span>
+
+        </h1>
+
+        <p>
+
+            Find government schemes that match your
+            age, income, occupation, category and state
+            through a simple AI-powered eligibility check.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a href="/profile" class="primary-btn">
+                Check My Eligibility →
+            </a>
+
+            <a href="#how-it-works" class="secondary-btn">
+                How It Works
+            </a>
+
+        </div>
+
+
+        <div class="trust">
+
+            ✓ Smart Recommendations
+
+            &nbsp;&nbsp;
+
+            ✓ Easy to Use
+
+            &nbsp;&nbsp;
+
+            ✓ Free Assistance
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         AI ASSISTANT
+         ========================= -->
+
+    <div class="ai-card">
+
+        <div class="ai-header">
+
+            <div class="ai-icon">
+                🤖
+            </div>
+
+            <div>
+
+                <h3>
+                    AI Scheme Assistant
+                </h3>
+
+                <p>
+                    Ready to help you
+                </p>
+
+            </div>
+
+            <span class="online">
+                ●
+            </span>
+
+        </div>
+
+
+        <div class="ai-message">
+
+            <p id="aiText">
+
+                👋 Hello! I can help you find government
+                schemes that match your profile.
+
+            </p>
+
+        </div>
+
+
+        <div class="ai-question">
+
+            <span id="aiButtonText">
+                Find schemes for me
+            </span>
+
+            <a
+                href="/profile"
+                class="ai-find-btn"
+                id="aiButton"
+                onclick="startAssistant(event)"
+            >
+                →
+            </a>
+
+        </div>
+
+
+        <div class="ai-footer">
+
+            🔒 Your information is securely handled
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     STATISTICS
+     ========================= -->
+
+<section class="stats">
+
+    <div>
+
+        <h2>4+</h2>
+
+        <p>
+            Government Schemes
+        </p>
+
+    </div>
+
+
+    <div>
+
+        <h2>AI</h2>
+
+        <p>
+            Smart Recommendations
+        </p>
+
+    </div>
+
+
+    <div>
+
+        <h2>2</h2>
+
+        <p>
+            Languages Supported
+        </p>
+
+    </div>
+
+
+    <div>
+
+        <h2>24/7</h2>
+
+        <p>
+            Scheme Assistance
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SCHEMES
+     ========================= -->
+
+<section
+    class="schemes-section"
+    id="schemes"
+>
+
+    <div class="section-title">
+
+        <span>
+            EXPLORE
+        </span>
+
+ <section class="schemes-section" id="schemes">
+
+    <div class="section-title">
+
+        <span>EXPLORE</span>
+
+        <h2>Government Scheme Categories</h2>
+
+        <p>
+            Explore government assistance programs across
+            major support categories.
+        </p>
+
+    </div>
+
+
+    <div class="scheme-grid">
+
+        {% for scheme in schemes %}
+
+        <div class="scheme-card">
+
+            <div class="scheme-icon">
+
+                {% if "Student" in scheme.name
+                   or "Scholarship" in scheme.name %}
+                    🎓
+
+                {% elif "Farmer" in scheme.name
+                   or "Kisan" in scheme.name %}
+                    🌾
+
+                {% elif "Housing" in scheme.name
+                   or "Awas" in scheme.name %}
+                    🏠
+
+                {% elif "Employment" in scheme.name
+                   or "Rozgar" in scheme.name
+                   or "MGNREGA" in scheme.name %}
+                    💼
+
+                {% elif "Skill" in scheme.name %}
+                    🛠️
+
+                {% else %}
+                    🏛️
+                {% endif %}
+
+            </div>
+
+
+            <span class="scheme-badge">
+                ✓ Government Scheme
+            </span>
+
+
+            <h3>
+                {{ scheme.name }}
+            </h3>
+
+
+            <p>
+                {{ scheme.description }}
+            </p>
+
+
+            <div class="scheme-meta">
+
+                <span>
+                    Category: {{ scheme.category }}
+                </span>
+
+                <span>
+                    Age:
+                    {{ scheme.min_age }} -
+                    {{ scheme.max_age }}
+                </span>
+
+            </div>
+
+
+            <a href="{{ url_for('scheme_details', scheme_id=scheme.id) }}">
+                Explore Scheme →
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>    
+
+<!-- =========================
+     HOW IT WORKS
+     ========================= -->
+
+<section
+    class="how-section"
+    id="how-it-works"
+>
+
+    <div class="section-title">
+
+        <span>
+            SIMPLE PROCE 

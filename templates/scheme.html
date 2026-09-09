@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Government Schemes | GovScheme AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        body {
+            margin: 0;
+            background: #f6f9fd;
+            font-family: "Inter", sans-serif;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 70px 20px 45px;
+        }
+
+        .page-header span {
+            color: #1261d6;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .page-header h1 {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 42px;
+            color: #14213d;
+            margin: 12px 0;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .scheme-container {
+            max-width: 1150px;
+            margin: auto;
+            padding: 20px 25px 90px;
+        }
+
+        .scheme-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+        }
+
+        .scheme-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 22px;
+            padding: 30px;
+            min-height: 330px;
+
+            display: flex;
+            flex-direction: column;
+
+            box-shadow: 0 10px 35px rgba(30,60,100,0.08);
+
+            transition: 0.25s ease;
+        }
+
+        .scheme-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 20px 45px rgba(30,60,100,0.14);
+        }
+
+        .scheme-icon {
+            width: 68px;
+            height: 68px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #edf5ff;
+            border-radius: 18px;
+
+            font-size: 36px;
+            margin-bottom: 18px;
+        }
+
+        .scheme-badge {
+            display: inline-block;
+            width: fit-content;
+
+            background: #edf7f1;
+            color: #16834d;
+
+            padding: 5px 10px;
+            border-radius: 20px;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            margin-bottom: 10px;
+        }
+
+        .scheme-card h2 {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 21px;
+            color: #17243b;
+            margin: 0 0 10px;
+        }
+
+        .scheme-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 6px 0;
+        }
+
+        .scheme-info {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .info-item {
+            background: #f7f9fc;
+            border: 1px solid #e5eaf1;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #475569;
+        }
+
+        /*
+        =====================================
+        VIEW DETAILS BUTTON
+        =====================================
+        */
+
+        .details-btn {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+
+            width: fit-content;
+
+            margin-top: auto;
+            padding: 13px 22px;
+
+            background: #1261d6 !important;
+            color: #ffffff !important;
+
+            border-radius: 10px;
+
+            text-decoration: none !important;
+
+            font-family: "Inter", sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+
+            box-shadow: 0 7px 18px rgba(18,97,214,0.20);
+
+            transition: 0.25s ease;
+        }
+
+        .details-btn:hover {
+            background: #0b47a1 !important;
+            color: #ffffff !important;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 10px 25px rgba(18,97,214,0.30);
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            background: white;
+            text-align: center;
+            padding: 60px 20px;
+            border-radius: 20px;
+        }
+
+        @media(max-width: 700px) {
+
+            .scheme-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 32px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        🏛️ <span>GovScheme</span><b>AI</b>
+    </div>
+
+    <nav>
+
+        <a href="/">Home</a>
+
+        <a href="/schemes">Schemes</a>
+
+        <a href="/profile">Profile</a>
+
+        <a href="/login">Login</a>
+
+    </nav>
+
+    <a href="/profile" class="nav-button">
+        Check Eligibility
+    </a>
+
+</header>
+
+
+<!-- ================= PAGE HEADER ================= -->
+
+<section class="page-header">
+
+    <span>GOVERNMENT ASSISTANCE</span>
+
+    <h1>Explore Government Schemes</h1>
+
+    <p>
+        Discover government programs and assistance
+        designed for different needs.
+    </p>
+
+</section>
+
+
+<!-- ================= SCHEMES ================= -->
+
+<section class="scheme-container">
+
+    <div class="scheme-grid">
+
+        {% if schemes %}
+
+            {% for scheme in schemes %}
+
+            <div class="scheme-card">
+
+
+                <!-- ICON -->
+
+                {% if "Student" in scheme.name %}
+
+                    <div class="scheme-icon">🎓</div>
+
+                {% elif "Farmer" in scheme.name %}
+
+                    <div class="scheme-icon">🌾</div>
+
+                {% elif "Housing" in scheme.name %}
+
+                    <div class="scheme-icon">🏠</div>
+
+                {% elif "Employment" in scheme.name %}
+
+                    <div class="scheme-icon">💼</div>
+
+                {% else %}
+
+                    <div class="scheme-icon">🏛️</div>
+
+                {% endif %}
+
+
+                <!-- BADGE -->
+
+                <span class="scheme-badge">
+                    ✓ Government Scheme
+                </span>
+
+
+                <!-- NAME -->
+
+                <h2>
+                    {{ scheme.name }}
+                </h2>
+
+
+                <!-- DESCRIPTION -->
+
+                <p>
+                    {{ scheme.description }}
+                </p>
+
+
+                <!-- INFORMATION -->
+
+                <div class="scheme-info">
+
+                    <div class="info-item">
+
+                        <strong>Category:</strong>
+                        {{ scheme.category }}
+
+                    </div>
+
+                    <div class="info-item">
+
+                        <strong>Age:</strong>
+                        {{ scheme.min_age }}
+                        -
+                        {{ scheme.max_age }}
+
+                    </div>
+
+                </div>
+
+
+                <!--
+                IMPORTANT:
+                THIS BUTTON OPENS OUR DETAILS PAGE.
+                IT DOES NOT OPEN OFFICIAL PORTAL.
+                -->
+
+                <a
+                    href="{{ url_for('scheme_details', scheme_id=scheme.id) }}"
+                    class="details-btn">
+
+                    View Details →
+
+                </a>
+
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <h2>No Government Schemes Found</h2>
+
+                <p>
+                    No schemes are currently available.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-logo">
+        🏛️ GovScheme<b>AI</b>
+    </div>
+
+    <p>
+        AI-Based Government Scheme Eligibility & Assistance System
+    </p>
+
+    <p class="copyright">
+        © 2026 GovScheme AI. Built for educational purposes.
+    </p>
+
+</footer>
+
+
+</body>
+
+</html> 

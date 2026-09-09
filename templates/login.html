@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login | GovScheme AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🏛️ <span>GovScheme</span><b>AI</b>
+    </div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/register">Register</a>
+    </nav>
+
+</header>
+
+<section class="auth-section">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">🔐</div>
+
+        <h1>Welcome Back</h1>
+
+        <p>Login to access your government scheme recommendations.</p>
+
+        <form method="POST" action="/login">
+
+            <label>Email</label>
+            <input type="email"
+                   name="email"
+                   placeholder="Enter your email"
+                   required>
+
+            <label>Password</label>
+            <input type="password"
+                   name="password"
+                   placeholder="Enter your password"
+                   required>
+
+            <button type="submit" class="auth-btn">
+                Login →
+            </button>
+
+        </form>
+
+        <p class="auth-link">
+            Don't have an account?
+            <a href="/register">Create Account</a>
+        </p>
+
+    </div>
+
+</section>
+
+<footer>
+    <div class="footer-logo">
+        🏛️ GovScheme<b>AI</b>
+    </div>
+
+    <p>AI-Based Government Scheme Eligibility & Assistance System</p>
+</footer>
+
+</body>
+</html>

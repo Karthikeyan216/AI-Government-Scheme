@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Eligibility Check | GovScheme AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background: #f5f8fc;
+            color: #17243b;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            min-height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 16px 6%;
+
+            background: rgba(255,255,255,0.97);
+
+            border-bottom: 1px solid #e5ebf3;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .logo b {
+            color: #1261d6;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        .navbar nav a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .navbar nav a:hover {
+            color: #1261d6;
+        }
+
+        .nav-button {
+            text-decoration: none;
+            background: #1261d6;
+            color: white;
+
+            padding: 11px 18px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* ================= MAIN ================= */
+
+        .profile-section {
+            min-height: calc(100vh - 72px);
+
+            padding: 70px 20px 90px;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #eaf3ff 0,
+                    transparent 35%
+                ),
+                #f5f8fc;
+        }
+
+        .profile-container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        /* ================= TITLE ================= */
+
+        .profile-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .profile-title span {
+            display: inline-block;
+
+            background: #eaf3ff;
+
+            color: #1261d6;
+
+            padding: 8px 14px;
+
+            border-radius: 30px;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+        }
+
+        .profile-title h1 {
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: clamp(30px, 5vw, 44px);
+
+            margin: 18px 0 10px;
+
+            color: #14213d;
+
+            letter-spacing: -1px;
+        }
+
+        .profile-title p {
+
+            color: #64748b;
+
+            max-width: 600px;
+
+            margin: auto;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+        /* ================= CARD ================= */
+
+        .profile-card {
+
+            background: rgba(255,255,255,0.98);
+
+            padding: 42px;
+
+            border-radius: 24px;
+
+            border: 1px solid #dfe7f1;
+
+            box-shadow:
+                0 25px 70px rgba(30,60,100,0.10);
+        }
+
+        .form-heading {
+
+            margin-bottom: 28px;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid #edf1f6;
+        }
+
+        .form-heading h2 {
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            margin: 0 0 5px;
+
+            font-size: 20px;
+        }
+
+        .form-heading p {
+
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-row {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 22px;
+
+            margin-bottom: 22px;
+        }
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        .form-group label {
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #17243b;
+
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        .form-group input,
+        .form-group select {
+
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border: 1px solid #d7e0ea;
+
+            border-radius: 11px;
+
+            font-family: "Inter", sans-serif;
+
+            font-size: 14px;
+
+            color: #17243b;
+
+            background: white;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        .form-group input::placeholder {
+            color: #9aa7b8;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+
+            border-color: #1261d6;
+
+            box-shadow:
+                0 0 0 4px rgba(18,97,214,0.09);
+        }
+
+        /* ================= INFO ================= */
+
+        .form-note {
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: flex-start;
+
+            background: #eff6ff;
+
+            border: 1px solid #dbeafe;
+
+            padding: 16px;
+
+            border-radius: 12px;
+
+            color: #1e4fa3;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            margin: 28px 0;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .check-btn {
+
+            width: 100%;
+
+            border: none;
+
+            background: linear-gradient(
+                135deg,
+                #1261d6,
+                #0b55c4
+            );
+
+            color: white;
+
+            padding: 16px;
+
+            border-radius: 11px;
+
+            font-family: "Inter", sans-serif;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 25px rgba(18,97,214,0.20);
+
+            transition: 0.25s;
+        }
+
+        .check-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 15px 30px rgba(18,97,214,0.27);
+        }
+
+        .check-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ================= SECURITY ================= */
+
+        .security {
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 42px 20px;
+
+            background: #101827;
+
+            color: #cbd5e1;
+        }
+
+        .footer-logo {
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+            color: white;
+        }
+
+        .footer-logo b {
+            color: #4f9cff;
+        }
+
+        footer p {
+
+            font-size: 12px;
+
+            color: #94a3b8;
+        }
+
+        .copyright {
+            margin-top: 18px;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width: 700px) {
+
+            .navbar {
+                flex-wrap: wrap;
+                gap: 15px;
+                padding: 14px 20px;
+            }
+
+            .navbar nav {
+                order: 3;
+
+                width: 100%;
+
+                justify-content: center;
+
+                gap: 18px;
+            }
+
+            .nav-button {
+                font-size: 11px;
+            }
+
+            .profile-section {
+                padding: 50px 15px 70px;
+            }
+
+            .profile-card {
+                padding: 25px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 18px;
+                margin-bottom: 18px;
+            }
+
+            .profile-title h1 {
+                font-size: 30px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        🏛️ GovScheme<b>AI</b>
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/schemes">
+            Schemes
+        </a>
+
+        <a href="/profile">
+            Profile
+        </a>
+
+    </nav>
+
+    <a href="/schemes" class="nav-button">
+        View Schemes →
+    </a>
+
+</header>
+
+
+<!-- ================= PROFILE ================= -->
+
+<section class="profile-section">
+
+    <div class="profile-container">
+
+
+        <div class="profile-title">
+
+            <span>
+                🤖 AI ELIGIBILITY CHECK
+            </span>
+
+            <h1>
+                Find Schemes For You
+            </h1>
+
+            <p>
+                Tell us a little about yourself.
+                Our eligibility engine will compare your
+                information with available government schemes.
+            </p>
+
+        </div>
+
+
+        <!-- ================= FORM ================= -->
+
+        <form
+            action="{{ url_for('check_eligibility') }}"
+            method="POST"
+            class="profile-card"
+        >
+
+
+            <div class="form-heading">
+
+                <h2>
+                    Your Information
+                </h2>
+
+                <p>
+                    All fields are required for accurate matching.
+                </p>
+
+            </div>
+
+
+            <!-- AGE + INCOME -->
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="age">
+                        Age <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        min="1"
+                        max="100"
+                        placeholder="Enter your age"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="income">
+                        Annual Family Income <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        id="income"
+                        name="income"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 150000"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- OCCUPATION + CATEGORY -->
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="occupation">
+                        Occupation <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="occupation"
+                        name="occupation"
+                        required
+                    >
+
+                        <option value="">
+                            Select Occupation
+                        </option>
+
+                        <option value="Student">
+                            Student
+                        </option>
+
+                        <option value="Farmer">
+                            Farmer
+                        </option>
+
+                        <option value="Employee">
+                            Employee
+                        </option>
+
+                        <option value="Business">
+                            Business
+                        </option>
+
+                        <option value="Unemployed">
+                            Unemployed
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Social Category <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                        required
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="General">
+                            General
+                        </option>
+
+                        <option value="OBC">
+                            OBC
+                        </option>
+
+                        <option value="SC">
+                            SC
+                        </option>
+
+                        <option value="ST">
+                            ST
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATE -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="state">
+                        State <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="state"
+                        name="state"
+                        required
+                    >
+
+                        <option value="">
+                            Select State
+                        </option>
+
+                        <option value="Tamil Nadu">
+                            Tamil Nadu
+                        </option>
+
+                        <option value="All">
+                            All States
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div></div>
+
+            </div>
+
+
+            <!-- PRIVACY -->
+
+            <div class="form-note">
+
+                <span>🔒</span>
+
+                <div>
+
+                    <strong>
+                        Your privacy matters
+                    </strong>
+
+                    <br>
+
+                    Your information is used only to identify
+                    potentially suitable government schemes.
+                    This educational system does not submit
+                    applications on your behalf.
+
+                </div>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="check-btn"
+            >
+
+                🤖 Check My Eligibility →
+
+            </button>
+
+
+            <div class="security">
+
+                🔐 Secure eligibility analysis • No application submitted automatically
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-logo">
+        🏛️ GovScheme<b>AI</b>
+    </div>
+
+    <p>
+        AI-Based Government Scheme Eligibility & Assistance System
+    </p>
+
+    <p class="copyright">
+        © 2026 GovScheme AI | Built for Educational Purposes
+    </p>
+
+</footer>
+
+
+</body>
+
+</html> 

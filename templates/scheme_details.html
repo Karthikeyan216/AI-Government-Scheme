@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ scheme.name }} | GovScheme AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+/* =====================================================
+   GOVSCHEME AI - SCHEME DETAILS PAGE
+   ===================================================== */
+
+.details-section {
+    padding: 45px 20px 70px;
+    background: #f6f9fd;
+}
+
+.details-container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* =====================================================
+   HERO
+   ===================================================== */
+
+.details-hero {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 22px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 12px 35px rgba(15, 35, 70, 0.07);
+    margin-bottom: 25px;
+}
+
+.details-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.details-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    background: #edf5ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    flex-shrink: 0;
+}
+
+.details-main {
+    flex: 1;
+}
+
+.scheme-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #eaf3ff;
+    color: #1261d6;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.details-main h1 {
+    margin: 0 0 10px;
+    color: #14213d;
+    font-size: 34px;
+    line-height: 1.25;
+}
+
+.details-description {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+/* =====================================================
+   ELIGIBILITY
+   ===================================================== */
+
+.eligibility-box {
+    margin-top: 25px;
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(15, 35, 70, 0.05);
+}
+
+.eligibility-box h2 {
+    margin: 0 0 22px;
+    color: #14213d;
+    font-size: 22px;
+}
+
+.eligibility-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.eligibility-item {
+    padding: 18px;
+    background: #f8fafc;
+    border: 1px solid #e8edf4;
+    border-radius: 14px;
+}
+
+.eligibility-item strong {
+    display: block;
+    margin-bottom: 7px;
+    color: #64748b;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.eligibility-item span {
+    color: #17243b;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+/* =====================================================
+   INFORMATION CARDS
+   ===================================================== */
+
+.info-section {
+    margin-top: 25px;
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(15, 35, 70, 0.05);
+}
+
+.info-section h2 {
+    margin: 0 0 15px;
+    color: #14213d;
+    font-size: 22px;
+}
+
+.info-content {
+    color: #64748b;
+    line-height: 1.8;
+    white-space: pre-line;
+    font-size: 14px;
+}
+
+/* =====================================================
+   HOW TO APPLY
+   ===================================================== */
+
+.application-box {
+    margin-top: 25px;
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(15, 35, 70, 0.05);
+}
+
+.application-box h2 {
+    margin: 0 0 20px;
+    color: #14213d;
+    font-size: 22px;
+}
+
+.application-content {
+    padding: 20px;
+    background: #f8fbff;
+    border-radius: 14px;
+    border-left: 4px solid #1261d6;
+    color: #475569;
+    line-height: 1.9;
+    font-size: 14px;
+    white-space: pre-line;
+}
+
+/* =====================================================
+   VERIFICATION
+   ===================================================== */
+
+.verification-box {
+    margin-top: 20px;
+    padding: 15px 18px;
+    background: #eef7ff;
+    border: 1px solid #d8eaff;
+    border-radius: 12px;
+    color: #475569;
+    font-size: 13px;
+}
+
+.verification-box strong {
+    color: #1261d6;
+}
+
+/* =====================================================
+   DOCUMENT CHECKER
+   ===================================================== */
+
+.document-checker {
+    margin-top: 28px;
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(15, 35, 70, 0.07);
+}
+
+.document-checker h2 {
+    margin: 0 0 8px;
+    color: #17243b;
+    font-size: 24px;
+}
+
+.document-checker > p {
+    margin: 0 0 22px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.document-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.document-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #e5eaf1;
+    border-radius: 12px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.document-item:hover {
+    background: #f1f6ff;
+    border-color: #bcd4f7;
+    transform: translateY(-1px);
+}
+
+.document-item input {
+    width: 17px;
+    height: 17px;
+    accent-color: #1261d6;
+    cursor: pointer;
+}
+
+/* =====================================================
+   READINESS
+   ===================================================== */
+
+.readiness-box {
+    margin-top: 22px;
+    padding: 18px;
+    background: #f8fbff;
+    border: 1px solid #dce9fb;
+    border-radius: 14px;
+}
+
+.readiness-box strong {
+    display: block;
+    margin-bottom: 10px;
+    color: #17243b;
+    font-size: 13px;
+}
+
+.readiness-bar {
+    width: 100%;
+    height: 10px;
+    background: #e5edf8;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.readiness-fill {
+    height: 100%;
+    width: 0%;
+    background: #1261d6;
+    border-radius: 20px;
+    transition: width .4s ease;
+}
+
+#readinessText {
+    display: block;
+    margin-top: 8px;
+    color: #1261d6;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+/* =====================================================
+   AI APPLICATION ASSISTANT
+   ===================================================== */
+
+.application-assistant {
+    margin-top: 28px;
+    padding: 30px;
+    background: linear-gradient(135deg, #f8fbff, #eef5ff);
+    border: 1px solid #d7e6fa;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(15, 35, 70, 0.07);
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.assistant-icon {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid #d9e7fa;
+    border-radius: 16px;
+    font-size: 30px;
+}
+
+.assistant-content {
+    flex: 1;
+}
+
+.assistant-content h2 {
+    margin: 0 0 7px;
+    color: #17243b;
+    font-size: 24px;
+}
+
+.assistant-content > p {
+    margin: 0 0 22px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.assistant-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.assistant-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 15px;
+    background: #ffffff;
+    border: 1px solid #e4ebf4;
+    border-radius: 13px;
+}
+
+.assistant-step > span {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1261d6;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.assistant-step strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #17243b;
+    font-size: 13px;
+}
+
+.assistant-step small {
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.assistant-apply-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 20px;
+    background: #1261d6;
+    color: #ffffff !important;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(18, 97, 214, .18);
+    transition: .2s ease;
+}
+
+.assistant-apply-btn:hover {
+    background: #0b47a1;
+    transform: translateY(-2px);
+}
+
+/* =====================================================
+   ACTION BUTTONS
+   ===================================================== */
+
+.details-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.details-actions a {
+    text-decoration: none;
+}
+
+.details-actions .primary-btn,
+.details-actions .secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =====================================================
+   OFFICIAL NOTE
+   ===================================================== */
+
+.official-note {
+    margin-top: 20px;
+    padding: 16px 18px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 850px) {
+
+    .details-hero {
+        padding: 28px;
+    }
+
+    .details-main h1 {
+        font-size: 28px;
+    }
+
+    .eligibility-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .assistant-steps {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .details-section {
+        padding: 25px 14px 50px;
+    }
+
+    .details-hero {
+        padding: 22px;
+    }
+
+    .details-top {
+        flex-direction: column;
+    }
+
+    .details-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+    }
+
+    .details-main h1 {
+        font-size: 24px;
+    }
+
+    .eligibility-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .document-list {
+        grid-template-columns: 1fr;
+    }
+
+    .application-assistant {
+        flex-direction: column;
+        padding: 22px;
+    }
+
+    .details-actions {
+        flex-direction: column;
+    }
+
+    .details-actions a {
+        width: 100%;
+    }
+
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
+
+<header class="navbar">
+
+    <div class="logo">
+        🏛️ GovScheme<b>AI</b>
+    </div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/schemes">Schemes</a>
+        <a href="/profile">Profile</a>
+    </nav>
+
+    <a href="/profile" class="nav-button">
+        Check Eligibility
+    </a>
+
+</header>
+
+
+<!-- =====================================================
+     DETAILS PAGE
+     ===================================================== -->
+
+<section class="details-section">
+
+    <div class="details-container">
+
+
+        <!-- =================================================
+             SCHEME HERO
+             ================================================= -->
+
+        <div class="details-hero">
+
+            <div class="details-top">
+
+                <div class="details-icon">
+
+                    {% if scheme.category == "Education" %}
+                        🎓
+
+                    {% elif scheme.category == "Agriculture" %}
+                        🌾
+
+                    {% elif scheme.category == "Housing" %}
+                        🏠
+
+                    {% elif scheme.category == "Employment" %}
+                        💼
+
+                    {% else %}
+                        🏛️
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="details-main">
+
+                    <span class="scheme-badge">
+                        ✓ Government Scheme
+                    </span>
+
+                    <h1>
+                        {{ scheme.name }}
+                    </h1>
+
+                    <p class="details-description">
+                        {{ scheme.description }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ELIGIBILITY INFORMATION
+             ================================================= -->
+
+        <div class="eligibility-box">
+
+            <h2>
+                Eligibility Information
+            </h2>
+
+            <div class="eligibility-grid">
+
+
+                <div class="eligibility-item">
+                    <strong>Category</strong>
+                    <span>
+                        {{ scheme.category }}
+                    </span>
+                </div>
+
+
+                <div class="eligibility-item">
+                    <strong>Age</strong>
+                    <span>
+                        {{ scheme.min_age }} - {{ scheme.max_age }}
+                    </span>
+                </div>
+
+
+                <div class="eligibility-item">
+                    <strong>Maximum Income</strong>
+                    <span>
+                        ₹{{ scheme.max_income }}
+                    </span>
+                </div>
+
+
+                <div class="eligibility-item">
+                    <strong>Occupation</strong>
+                    <span>
+                        {{ scheme.occupation }}
+                    </span>
+                </div>
+
+
+                <div class="eligibility-item">
+                    <strong>Required Category</strong>
+                    <span>
+                        {{ scheme.category_required }}
+                    </span>
+                </div>
+
+
+                <div class="eligibility-item">
+                    <strong>State</strong>
+                    <span>
+                        {{ scheme.state }}
+                    </span>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             BENEFITS
+             ================================================= -->
+
+        {% if scheme.benefits %}
+
+        <div class="info-section">
+
+            <h2>
+                🎁 Benefits
+            </h2>
+
+            <div class="info-content">
+                {{ scheme.benefits }}
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             REQUIRED DOCUMENTS
+             ================================================= -->
+
+        {% if scheme.documents %}
+
+        <div class="info-section">
+
+            <h2>
+                📄 Required Documents
+            </h2>
+
+            <div class="info-content">
+                {{ scheme.documents }}
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             HOW TO APPLY
+             ================================================= -->
+
+        {% if scheme.application_steps %}
+
+        <div class="application-box">
+
+            <h2>
+                📝 How to Apply
+            </h2>
+
+            <div class="application-content">
+                {{ scheme.application_steps }}
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             VERIFICATION
+             ================================================= -->
+
+        {% if scheme.last_verified %}
+
+        <div class="verification-box">
+
+            🔍
+
+            <strong>
+                Information Verified:
+            </strong>
+
+            {{ scheme.last_verified }}
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             DOCUMENT CHECKER
+             ================================================= -->
+
+        <div class="document-checker">
+
+            <h2>
+                📄 Document Checker
+            </h2>
+
+            <p>
+                Select the documents you already have:
+            </p>
+
+            <div class="document-list">
+
+                {% if scheme.documents %}
+
+                    {% for document in scheme.documents.split(';') %}
+
+                    <label class="document-item">
+
+                        <input
+                            type="checkbox"
+                            class="document-check"
+                            onchange="calculateReadiness()"
+                        >
+
+                        <span>
+                            {{ document.strip() }}
+                        </span>
+
+                    </label>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>
+                        Document information is not available.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="readiness-box">
+
+                <strong>
+                    Application Readiness
+                </strong>
+
+                <div class="readiness-bar">
+
+                    <div
+                        id="readinessFill"
+                        class="readiness-fill"
+                    ></div>
+
+                </div>
+
+                <span id="readinessText">
+                    0%
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             AI ASSISTANT
+             ================================================= -->
+
+        <div class="application-assistant">
+
+            <div class="assistant-icon">
+                🤖
+            </div>
+
+            <div class="assistant-content">
+
+                <h2>
+                    AI Application Assistant
+                </h2>
+
+                <p>
+                    Follow these simple steps to prepare
+                    and submit your application.
+                </p>
+
+
+                <div class="assistant-steps">
+
+
+                    <div class="assistant-step">
+
+                        <span>1</span>
+
+                        <div>
+
+                            <strong>
+                                Check Eligibility
+                            </strong>
+
+                            <small>
+                                Review your eligibility details
+                                before applying.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="assistant-step">
+
+                        <span>2</span>
+
+                        <div>
+
+                            <strong>
+                                Prepare Documents
+                            </strong>
+
+                            <small>
+                                Make sure all required documents
+                                are ready.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="assistant-step">
+
+                        <span>3</span>
+
+                        <div>
+
+                            <strong>
+                                Apply Online
+                            </strong>
+
+                            <small>
+                                Continue your application through
+                                the official portal.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                {% if official_link %}
+
+                <a
+                    href="{{ official_link }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="assistant-apply-btn"
+                >
+                    🌐 Continue to Official Portal →
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+        <!-- =================================================
+             ACTION BUTTONS
+             ================================================= -->
+
+        <div class="details-actions">
+
+            {% if official_link %}
+
+            <a
+                href="{{ official_link }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="primary-btn"
+            >
+                🌐 Official Portal →
+            </a>
+
+            {% endif %}
+
+
+            <a
+                href="/schemes"
+                class="secondary-btn"
+            >
+                ← Back to Schemes
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             OFFICIAL INFORMATION NOTE
+             ================================================= -->
+
+        <div class="official-note">
+
+            <span>
+                🔒
+            </span>
+
+            <span>
+                GovScheme AI provides eligibility and application
+                assistance for educational purposes. Final
+                eligibility, verification and application submission
+                are completed through the official government portal.
+            </span>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+    <div class="footer-logo">
+        🏛️ GovScheme<b>AI</b>
+    </div>
+
+    <p>
+        AI-Based Government Scheme Eligibility & Assistance System
+    </p>
+
+    <p class="copyright">
+        © 2026 GovScheme AI. Built for educational purposes.
+    </p>
+
+</footer>
+
+
+<!-- =====================================================
+     DOCUMENT READINESS JAVASCRIPT
+     ===================================================== -->
+
+<script>
+
+function calculateReadiness() {
+
+    const documents =
+        document.querySelectorAll(".document-check");
+
+    const checked =
+        document.querySelectorAll(
+            ".document-check:checked"
+        );
+
+    let percentage = 0;
+
+
+    if (documents.length > 0) {
+
+        percentage =
+            Math.round(
+                (checked.length / documents.length) * 100
+            );
+
+    }
+
+
+    const fill =
+        document.getElementById("readinessFill");
+
+    const text =
+        document.getElementById("readinessText");
+
+
+    if (fill) {
+
+        fill.style.width =
+            percentage + "%";
+
+    }
+
+
+    if (text) {
+
+        text.innerText =
+            percentage + "%";
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html> 

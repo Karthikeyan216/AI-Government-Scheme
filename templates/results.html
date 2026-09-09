@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Results | GovScheme AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background: #f4f7fb;
+            color: #17243b;
+        }
+
+        .results-navbar {
+            min-height: 72px;
+            padding: 14px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.96);
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+        }
+
+        .results-logo {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+            color: #17243b;
+        }
+
+        .results-logo b {
+            color: #1261d6;
+        }
+
+        .results-nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .results-nav a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .results-nav a:hover {
+            color: #1261d6;
+        }
+
+        .check-again-btn {
+            text-decoration: none;
+            padding: 11px 18px;
+            background: #1261d6;
+            color: white;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .results-section {
+            min-height: calc(100vh - 72px);
+            padding: 60px 20px 85px;
+
+            background:
+                radial-gradient(
+                    circle at 8% 0%,
+                    rgba(37,99,235,0.10),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 92% 15%,
+                    rgba(59,130,246,0.07),
+                    transparent 28%
+                ),
+                #f4f7fb;
+        }
+
+        .results-container {
+            max-width: 1180px;
+            margin: auto;
+        }
+
+        /* HEADER */
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .results-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #eaf3ff;
+            border: 1px solid #d7e8ff;
+            color: #1261d6;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .results-header h1 {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: clamp(30px, 5vw, 44px);
+            margin: 16px 0 10px;
+            color: #14213d;
+        }
+
+        .results-header p {
+            max-width: 700px;
+            margin: auto;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* AI SUMMARY */
+
+        .ai-summary {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 22px 25px;
+            margin-bottom: 32px;
+
+            background: white;
+            border: 1px solid #dfe7f1;
+            border-radius: 18px;
+
+            box-shadow: 0 12px 32px rgba(30,60,100,0.06);
+        }
+
+        .ai-summary-icon {
+            width: 58px;
+            height: 58px;
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #edf5ff;
+            border-radius: 15px;
+            font-size: 28px;
+        }
+
+        .ai-summary h3 {
+            margin: 0 0 5px;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 17px;
+            color: #17243b;
+        }
+
+        .ai-summary p {
+            margin: 0;
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* RESULT GRID */
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 25px;
+        }
+
+        /* CARD */
+
+        .result-card {
+            position: relative;
+            background: #ffffff;
+            border: 1px solid #dfe7f1;
+            border-radius: 22px;
+            padding: 27px;
+
+            box-shadow: 0 12px 35px rgba(30,60,100,0.07);
+
+            transition: 0.25s ease;
+            overflow: hidden;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 48px rgba(30,60,100,0.13);
+        }
+
+        .result-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 3px;
+            background: #1261d6;
+        }
+
+        /* CARD HEADER */
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .scheme-icon {
+            width: 60px;
+            height: 60px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #edf5ff;
+            border: 1px solid #dbeafe;
+            border-radius: 16px;
+
+            font-size: 30px;
+        }
+
+        .recommendation-badge {
+            padding: 7px 11px;
+            border-radius: 20px;
+
+            background: #ecfdf3;
+            border: 1px solid #c9f0d8;
+            color: #16803c;
+
+            font-size: 10px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        /* SCORE */
+
+        .score-box {
+            padding: 17px;
+            margin-bottom: 20px;
+
+            background: #f8fbff;
+            border: 1px solid #dce9fb;
+            border-radius: 15px;
+        }
+
+        .score-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 9px;
+        }
+
+        .score-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .score-number {
+            font-size: 23px;
+            font-weight: 800;
+            color: #1261d6;
+        }
+
+        .score-bar {
+            width: 100%;
+            height: 8px;
+
+            background: #e5edf8;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: #1261d6;
+            border-radius: 20px;
+            transition: width 0.6s ease;
+        }
+
+        .recommendation-text {
+            margin-top: 10px;
+            color: #16803c;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        /* TITLE */
+
+        .result-card h2 {
+            margin: 0 0 9px;
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 20px;
+            line-height: 1.35;
+
+            color: #17243b;
+        }
+
+        .scheme-description {
+            margin: 0 0 20px;
+
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* INFO GRID */
+
+        .scheme-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 11px;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            padding: 12px 13px;
+
+            background: #f8fafc;
+            border: 1px solid #edf1f5;
+            border-radius: 11px;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 5px;
+
+            color: #94a3b8;
+            font-size: 9px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .info-box span {
+            display: block;
+
+            color: #334155;
+            font-size: 12px;
+            font-weight: 700;
+
+            word-break: break-word;
+        }
+
+        /* ANALYSIS */
+
+        .analysis-box {
+            margin-top: 15px;
+            padding: 16px;
+
+            background: #fafcff;
+            border: 1px solid #e8eef7;
+            border-radius: 14px;
+        }
+
+        .analysis-title {
+            margin-bottom: 10px;
+
+            color: #17243b;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .analysis-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .analysis-list li {
+            position: relative;
+
+            padding-left: 21px;
+            margin: 8px 0;
+
+            color: #64748b;
+            font-size: 11px;
+            line-height: 1.55;
+        }
+
+        .analysis-list li::before {
+            content: "✓";
+
+            position: absolute;
+            left: 0;
+
+            color: #16803c;
+            font-weight: 800;
+        }
+
+        /* MISSING CONDITIONS */
+
+        .missing-box {
+            margin-top: 15px;
+            padding: 16px;
+
+            background: #fffaf5;
+            border: 1px solid #f3dfc5;
+            border-radius: 14px;
+        }
+
+        .missing-title {
+            margin-bottom: 10px;
+
+            color: #8a5a20;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .missing-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .missing-list li {
+            position: relative;
+
+            padding-left: 21px;
+            margin: 8px 0;
+
+            color: #80684b;
+            font-size: 11px;
+            line-height: 1.55;
+        }
+
+        .missing-list li::before {
+            content: "!";
+            position: absolute;
+            left: 0;
+
+            width: 15px;
+            height: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f59e0b;
+            color: white;
+            border-radius: 50%;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        /* BENEFIT */
+
+        .benefit-box {
+            margin-top: 15px;
+            padding: 16px;
+
+            background: #f7fbff;
+            border: 1px solid #e0ebf8;
+            border-radius: 14px;
+        }
+
+        .benefit-title {
+            margin-bottom: 7px;
+
+            color: #17243b;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .benefit-text {
+            color: #64748b;
+            font-size: 11px;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+
+        /* DOCUMENT */
+
+        .document-box {
+            margin-top: 15px;
+            padding: 14px 16px;
+
+            background: #fffaf0;
+            border: 1px solid #f2e5c5;
+            border-radius: 14px;
+
+            color: #725d31;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* BUTTON */
+
+        .details-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            min-height: 48px;
+
+            margin-top: 20px;
+            padding: 13px 18px;
+
+            background: #1261d6;
+            color: white;
+
+            border-radius: 10px;
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            box-shadow: 0 6px 16px rgba(18,97,214,0.20);
+
+            transition: 0.25s ease;
+        }
+
+        .details-btn:hover {
+            background: #0b47a1;
+            transform: translateY(-2px);
+        }
+        /* ACTIONS */
+
+        .result-actions {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 40px;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            display: inline-block;
+            padding: 13px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .primary-btn {
+            background: #1261d6;
+            color: white;
+        }
+
+        .secondary-btn {
+            background: white;
+            color: #1261d6;
+            border: 1px solid #cdd8e6;
+        }
+
+        /* NO RESULTS */
+
+        .no-results {
+            grid-column: 1 / -1;
+
+            text-align: center;
+            background: white;
+            border: 1px solid #dfe7f1;
+            border-radius: 22px;
+
+            padding: 65px 25px;
+
+            box-shadow: 0 12px 35px rgba(30,60,100,0.07);
+        }
+
+        .no-results-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .no-results h2 {
+            margin: 0 0 10px;
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+            color: #17243b;
+        }
+
+        .no-results p {
+            max-width: 600px;
+            margin: 0 auto 25px;
+
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 42px 20px;
+
+            background: #101827;
+            color: #cbd5e1;
+        }
+
+        .footer-logo {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .footer-logo b {
+            color: #4f9cff;
+        }
+
+        footer p {
+            margin: 8px 0;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        /* TABLET */
+
+        @media (max-width: 900px) {
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .results-navbar {
+                flex-wrap: wrap;
+                gap: 12px;
+                padding: 14px 20px;
+            }
+
+            .results-nav {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .results-nav a {
+                font-size: 12px;
+            }
+
+            .results-section {
+                padding: 45px 15px 70px;
+            }
+
+            .ai-summary {
+                align-items: flex-start;
+                padding: 18px;
+            }
+
+            .result-card {
+                padding: 21px;
+            }
+
+            .result-actions {
+                flex-direction: column;
+            }
+
+            .result-actions a {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            .scheme-info {
+                grid-template-columns: 1fr;
+            }
+
+            .results-header h1 {
+                font-size: 30px;
+            }
+
+            .card-top {
+                gap: 8px;
+            }
+
+            .recommendation-badge {
+                max-width: 150px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<header class="results-navbar">
+
+    <div class="results-logo">
+        🏛️ GovScheme<b>AI</b>
+    </div>
+
+
+    <nav class="results-nav">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/schemes">
+            Schemes
+        </a>
+
+        <a href="/profile">
+            Profile
+        </a>
+
+    </nav>
+
+
+    <a href="/profile" class="check-again-btn">
+        Check Again
+    </a>
+
+</header>
+
+
+<!-- MAIN -->
+
+<section class="results-section">
+
+    <div class="results-container">
+
+
+        <!-- HEADER -->
+
+        <div class="results-header">
+
+            <span class="results-badge">
+                ✨ AI ANALYSIS COMPLETE
+            </span>
+
+            <h1>
+                Your Recommended Schemes
+            </h1>
+
+            <p>
+                Our eligibility engine analyzed your profile
+                and ranked government schemes according to
+                how closely their requirements match your details.
+            </p>
+
+        </div>
+
+
+        <!-- AI SUMMARY -->
+
+        <div class="ai-summary">
+
+            <div class="ai-summary-icon">
+                🤖
+            </div>
+
+            <div>
+
+                <h3>
+                    Personalized Eligibility Analysis
+                </h3>
+
+                <p>
+                    Each scheme is evaluated across age, income,
+                    occupation, social category and state.
+                    A higher score means a stronger profile match.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="results-grid">
+
+
+            {% if schemes %}
+
+
+                {% for scheme in schemes %}
+
+
+                <!-- RESULT CARD -->
+
+                <article class="result-card">
+
+
+                    <!-- CARD TOP -->
+
+                    <div class="card-top">
+
+
+                        <div class="scheme-icon">
+
+                            {% if scheme.category == "Education" %}
+                                🎓
+
+                            {% elif scheme.category == "Agriculture" %}
+                                🌾
+
+                            {% elif scheme.category == "Housing" %}
+                                🏠
+
+                            {% elif scheme.category == "Employment" %}
+                                💼
+
+                            {% elif scheme.category == "Skill Development" %}
+                                🛠️
+
+                            {% else %}
+                                🏛️
+                            {% endif %}
+
+                        </div>
+
+
+                        <span class="recommendation-badge">
+
+                            ✓ {{ scheme.recommendation }}
+
+                        </span>
+
+
+                    </div>
+
+
+                    <!-- SCORE -->
+
+                    <div class="score-box">
+
+                        <div class="score-header">
+
+                            <span class="score-label">
+                                AI Match Score
+                            </span>
+
+                            <span class="score-number">
+                                {{ scheme.match_score }}%
+                            </span>
+
+                        </div>
+
+
+                        <div class="score-bar">
+
+                            <div
+                                class="score-fill"
+                                style="width: {{ scheme.match_score }}%;"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="recommendation-text">
+
+                            {{ scheme.recommendation_reason }}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- NAME -->
+
+                    <h2>
+                        {{ scheme.name }}
+                    </h2>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <p class="scheme-description">
+                        {{ scheme.description }}
+                    </p>
+
+
+                    <!-- BASIC INFORMATION -->
+
+                    <div class="scheme-info">
+
+
+                        <div class="info-box">
+
+                            <strong>
+                                Category
+                            </strong>
+
+                            <span>
+                                {{ scheme.category }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <strong>
+                                Age Range
+                            </strong>
+
+                            <span>
+                                {{ scheme.min_age }}
+                                -
+                                {{ scheme.max_age }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <strong>
+                                Occupation
+                            </strong>
+
+                            <span>
+                                {{ scheme.occupation }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <strong>
+                                State
+                            </strong>
+
+                            <span>
+                                {{ scheme.state }}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- WHY RECOMMENDED -->
+
+                    {% if scheme.reasons %}
+
+                    <div class="analysis-box">
+
+                        <div class="analysis-title">
+                            💡 Why Recommended
+                        </div>
+
+
+                        <ul class="analysis-list">
+
+                            {% for reason in scheme.reasons %}
+
+                            <li>
+                                {{ reason }}
+                            </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- MATCHED CONDITIONS -->
+
+                    {% if scheme.matched_conditions %}
+
+                    <div class="analysis-box">
+
+                        <div class="analysis-title">
+                            ✅ Matched Conditions
+                        </div>
+
+
+                        <ul class="analysis-list">
+
+                            {% for condition in scheme.matched_conditions %}
+
+                            <li>
+                                {{ condition }}
+                            </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- MISSING CONDITIONS -->
+
+                    {% if scheme.missing_conditions %}
+
+                    <div class="missing-box">
+
+                        <div class="missing-title">
+                            ⚠️ Needs Verification
+                        </div>
+
+
+                        <ul class="missing-list">
+
+                            {% for missing in scheme.missing_conditions %}
+
+                            <li>
+                                {{ missing }}
+                            </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- BENEFITS -->
+
+                    <div class="benefit-box">
+
+                        <div class="benefit-title">
+                            🎁 Benefit Preview
+                        </div>
+
+
+                        <div class="benefit-text">
+                            {{ scheme.benefit_preview }}
+                        </div>
+
+                    </div>
+
+
+                    <!-- DOCUMENT READINESS -->
+
+                    <div class="document-box">
+
+                        📄
+
+                        <strong>
+                            Document Readiness:
+                        </strong>
+
+                        {{ scheme.document_readiness }}
+
+                    </div>
+
+
+                    <!-- DETAILS -->
+
+                    <a
+                        href="{{ url_for('scheme_details', scheme_id=scheme.id) }}"
+                        class="details-btn"
+                    >
+
+                        View Full Details & Official Portal →
+
+                    </a>
+
+
+                </article>
+
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <!-- NO RESULTS -->
+
+                <div class="no-results">
+
+                    <div class="no-results-icon">
+                        🔍
+                    </div>
+
+
+                    <h2>
+                        No Matching Schemes Found
+                    </h2>
+
+
+                    <p>
+                        We couldn't find a strong match based on
+                        your current profile. You can try checking
+                        again or explore all available schemes.
+                    </p>
+
+
+                    <a
+                        href="/profile"
+                        class="primary-btn"
+                    >
+                        Check Again →
+                    </a>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+        <!-- BOTTOM ACTIONS -->
+
+        <div class="result-actions">
+
+            <a
+                href="/profile"
+                class="secondary-btn"
+            >
+                ← Check Again
+            </a>
+
+
+            <a
+                href="/schemes"
+                class="primary-btn"
+            >
+                Explore All Schemes →
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-logo">
+        🏛️ GovScheme<b>AI</b>
+    </div>
+
+
+    <p>
+        AI-Based Government Scheme Eligibility & Assistance System
+    </p>
+
+
+    <p>
+        © 2026 GovScheme AI. Built for educational purposes.
+    </p>
+
+</footer>
+
+
+</body>
+
+</html> 
